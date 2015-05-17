@@ -3,11 +3,17 @@ title: "Reproducible Research: Peer Assessment 1"
 output: 
   html_document:
     keep_md: true
+Author: iabrady
 ---
 
 
 ## Loading and preprocessing the data
 
+```{r echo=TRUE}
+      data.file <- "activity.csv"
+      data <- read.table(data.file, header = TRUE, sep = ",", na.strings = NA)
+
+```
 
 
 ## What is mean total number of steps taken per day?

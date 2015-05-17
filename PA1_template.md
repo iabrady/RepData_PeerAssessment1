@@ -1,10 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
-Author: iabrady
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
@@ -13,7 +7,8 @@ The analysis uses the lubridate, dplyr and ggplot2 packages and they are loaded 
 Then file file is read and the dates and steps data formatted appropriately.
 Some required variables are set up and two data frames to deal with NAs
 
-```{r echo=TRUE, message=FALSE}
+
+```r
       ## load any required packages
       library("lubridate")
       library("dplyr")
@@ -34,13 +29,13 @@ Some required variables are set up and two data frames to deal with NAs
       #' add a month column to the means by days data frame to use as a lookup index when we 
       #' need to get the month mean because the day mean is NA
       means.by.days$month <- month(means.by.days$date) # so we can get month value if required
-
 ```
 
 
 ## What is mean total number of steps taken per day?
 
-```{r echo=TRUE, message=FALSE, results='hide'}
+
+```r
       #' get the mean and median for display
       mean.of.all <- round(mean(data$steps, na.rm=TRUE), 2)
       median.of.all <- round(median(data$steps, na.rm=TRUE), 2)
@@ -54,12 +49,13 @@ Some required variables are set up and two data frames to deal with NAs
 ```
 ![](hist-steps-per-day.png)
 
-#### The mean total number of steps taken per day is `r mean.of.all`
-#### The median total number of steps taken per day is `r median.of.all`
+#### The mean total number of steps taken per day is 37.38
+#### The median total number of steps taken per day is 0
 
 
 ## What is the average daily activity pattern?
-```{r echo=TRUE, message=FALSE, results='hide', warning=FALSE}
+
+```r
       ## get a list of means grouped by date
       x <- data %>% 
             group_by(date) %>% 
@@ -74,14 +70,15 @@ Some required variables are set up and two data frames to deal with NAs
 
 ![](average-steps.png)
 
-```{r echo=TRUE, message=FALSE, results='hide', warning=FALSE}
+
+```r
       ## group the steps by interval and take the mean, then sort and take the top one.
       means.by.interval <- summarise( group_by(data, interval), int.mean = mean(steps, na.rm=TRUE))
       x <- arrange(means.by.interval, desc(int.mean))
 ```
 
-#### The interval with the most steps on average is `r x$interval[1]`
-#### The number of average steps for that interval was `r round(x$int.mean[1], 2)`
+#### The interval with the most steps on average is 835
+#### The number of average steps for that interval was 206.17
 #### 
 
 
@@ -98,7 +95,8 @@ In the data frame holding the activity data, for all NA data, the following step
 3. If the steps data in the activity data set is NA, then the day mean is used to replace it.
 
 
-```{r echo=TRUE}
+
+```r
       ## first if there are means by day that are NA, we need to replace those first
       for(i in 1:length(means.by.days$avg.steps)) {
             if(is.na(means.by.days$avg.steps[i])) 
@@ -114,7 +112,8 @@ In the data frame holding the activity data, for all NA data, the following step
 
 ### The new mean and histogram after imputing the NA values
 
-```{r echo=TRUE, message=FALSE, results='hide'}
+
+```r
       new.mean.of.all <- round(mean(data$steps, na.rm=TRUE), 2)
       new.median.of.all <- round(median(data$steps, na.rm=TRUE), 2) 
 
@@ -126,8 +125,8 @@ In the data frame holding the activity data, for all NA data, the following step
 ```
 ![](new-hist-steps-per-day.png)
 
-#### The new mean total number of steps taken per day is `r new.mean.of.all`
-#### The new median total number of steps taken per day is `r new.median.of.all`
+#### The new mean total number of steps taken per day is 37.38
+#### The new median total number of steps taken per day is 0
 
 
 ###### It is not surprising that the mean is still similar as the NAs were replaced by either the day or month mean and there are so many 0 values still, that the median has not changed either. However, the number of value around the mean has increased as you would expect, having done a mean replacement for NAs.
@@ -136,7 +135,8 @@ In the data frame holding the activity data, for all NA data, the following step
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-```{r echo=TRUE, message=FALSE, results='hide', eval=FALSE}
+
+```r
       #'    identify the days and then create a combined table with the day type
       x <- data %>% 
             group_by(date) %>% 
